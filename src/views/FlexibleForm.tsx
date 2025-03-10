@@ -1,9 +1,28 @@
 import { SyntheticEvent, useEffect, useRef, useState } from 'react'
 import { createSwapy } from 'swapy'
 import { FormItem, Form } from '@/components/ui/Form'
-import Radio from '@/components/ui/Radio'
-import Input from '@/components/ui/Input'
-import { Checkbox } from '@/components/ui'
+import {
+    Button,
+    Checkbox,
+    DatePicker,
+    Input,
+    Radio,
+    Select,
+} from '@/components/ui'
+import DatePickerRange from '@/components/ui/DatePicker/DatePickerRange'
+
+const colourOptions = [
+    { value: 'ocean', label: 'Ocean', color: '#00B8D9' },
+    { value: 'blue', label: 'Blue', color: '#0052CC' },
+    { value: 'purple', label: 'Purple', color: '#5243AA' },
+    { value: 'red', label: 'Red', color: '#FF5630' },
+    { value: 'orange', label: 'Orange', color: '#FF8B00' },
+    { value: 'yellow', label: 'Yellow', color: '#FFC400' },
+    { value: 'green', label: 'Green', color: '#36B37E' },
+    { value: 'forest', label: 'Forest', color: '#00875A' },
+    { value: 'slate', label: 'Slate', color: '#253858' },
+    { value: 'silver', label: 'Silver', color: '#666666' },
+]
 
 export default function FlexibleForm() {
     const swapy = useRef(null)
@@ -42,7 +61,7 @@ export default function FlexibleForm() {
         <Form>
             <div
                 ref={container}
-                className="grid grid-cols-6 rounded-md bg-white p-4 gap-x-4"
+                className="grid grid-cols-6 rounded-md bg-white p-4 gap-x-4 select-none"
             >
                 <div data-swapy-slot="a" className="col-span-3">
                     <div data-swapy-item="a">
@@ -64,6 +83,19 @@ export default function FlexibleForm() {
                     <div data-swapy-item="c">
                         <FormItem label="Description">
                             <Input textArea name="description" />
+                        </FormItem>
+                    </div>
+                </div>
+
+                <div data-swapy-slot="f" className="col-span-6">
+                    <div data-swapy-item="f">
+                        <FormItem label="Birthday">
+                            <DatePicker
+                                labelFormat={{
+                                    month: 'MMMM',
+                                    year: 'YY',
+                                }}
+                            />
                         </FormItem>
                     </div>
                 </div>
@@ -101,8 +133,45 @@ export default function FlexibleForm() {
                     </div>
                 </div>
 
-                <div data-swapy-slot="e" className="col-span-6">
-                    <div data-swapy-item="e"></div>
+                <div data-swapy-slot="h" className="col-span-6">
+                    <div data-swapy-item="h">
+                        <FormItem label="Your Favorite Colors">
+                            <Select
+                                isMulti
+                                placeholder="Please Select"
+                                defaultValue={[
+                                    colourOptions[2],
+                                    colourOptions[3],
+                                ]}
+                                options={colourOptions}
+                            />
+                        </FormItem>
+                    </div>
+                </div>
+
+                <div data-swapy-slot="g" className="col-span-6">
+                    <div data-swapy-item="g">
+                        <FormItem label="Multiple date view">
+                            <DatePickerRange dateViewCount={2} />
+                        </FormItem>
+                    </div>
+                </div>
+
+                <div data-swapy-slot="i" className="col-span-6">
+                    <div data-swapy-item="i">
+                        <FormItem label="Select One">
+                            <Select
+                                placeholder="Please Select"
+                                options={colourOptions}
+                            />
+                        </FormItem>
+                    </div>
+                </div>
+
+                <div className="col-span-6">
+                    <Button type="submit" variant="solid" block>
+                        Save
+                    </Button>
                 </div>
             </div>
         </Form>
