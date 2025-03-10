@@ -31,7 +31,7 @@ export default function FlexibleForm() {
     useEffect(() => {
         if (container.current) {
             swapy.current = createSwapy(container.current, {
-                animationDuration: 300, // Optional customization
+                animationDuration: 500, // Optional customization
             })
 
             // Listen for swap events
@@ -61,7 +61,7 @@ export default function FlexibleForm() {
         <Form>
             <div
                 ref={container}
-                className="grid grid-cols-6 rounded-md bg-white p-4 gap-x-4 select-none"
+                className="grid grid-cols-6 rounded-lg bg-white p-4 gap-x-4 select-none"
             >
                 <div data-swapy-slot="a" className="col-span-3">
                     <div data-swapy-item="a">
@@ -120,14 +120,30 @@ export default function FlexibleForm() {
                             <Checkbox.Group
                                 value={checkboxList}
                                 onChange={onCheckboxChange}
+                                className="flex flex-wrap"
                             >
                                 <Checkbox value="sys00">Sys00</Checkbox>
-                                <Checkbox value={'sys01'}>Sys01</Checkbox>
-                                <Checkbox value={'sys02'}>Sys02</Checkbox>
-                                <Checkbox value={'sys03'}>Sys03</Checkbox>
-                                <Checkbox value={'sys04'}>Sys04</Checkbox>
-                                <Checkbox value={'sys05'}>Sys05</Checkbox>
-                                <Checkbox value={'sys06'}>Sys06</Checkbox>
+                                <Checkbox value="sys01">Sys01</Checkbox>
+                                <Checkbox value="sys02">Sys02</Checkbox>
+                                <Checkbox value="sys03">Sys03</Checkbox>
+                                <Checkbox value="sys04">Sys04</Checkbox>
+                                <Checkbox value="sys05">Sys05</Checkbox>
+                                <Checkbox value="sys06">Sys06</Checkbox>
+                                <Checkbox value="sys07">Sys07</Checkbox>
+                                <Checkbox value="sys08">Sys08</Checkbox>
+                                <Checkbox value="sys09">Sys09</Checkbox>
+                                <Checkbox value="sys10">Sys10</Checkbox>
+                                <Checkbox value="sys11">Sys11</Checkbox>
+                                <Checkbox value="sys12">Sys12</Checkbox>
+                                <Checkbox value="sys13">Sys13</Checkbox>
+                                <Checkbox value="sys14">Sys14</Checkbox>
+                                <Checkbox value="sys15">Sys15</Checkbox>
+                                <Checkbox value="sys16">Sys16</Checkbox>
+                                <Checkbox value="sys17">Sys17</Checkbox>
+                                <Checkbox value="sys18">Sys18</Checkbox>
+                                <Checkbox value="sys19">Sys19</Checkbox>
+                                <Checkbox value="sys20">Sys20</Checkbox>
+                                <Checkbox value="sys21">Sys21</Checkbox>
                             </Checkbox.Group>
                         </FormItem>
                     </div>
