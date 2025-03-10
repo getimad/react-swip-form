@@ -1,7 +1,7 @@
-import Form from './Form'
+import FlexibleForm from './FlexibleForm'
 
 const Home = () => {
-    return <Form />
+    return <FlexibleForm />
 }
 
 export default Home
