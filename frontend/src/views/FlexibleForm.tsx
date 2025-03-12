@@ -1,5 +1,5 @@
-import { SyntheticEvent, useEffect, useRef, useState } from 'react'
-import { createSwapy } from 'swapy'
+import { FormEvent, useEffect, useRef, useState } from 'react'
+import { createSwapy, SwapyInstance } from 'swapy'
 import { FormItem, Form } from '@/components/ui/Form'
 import {
     Button,
@@ -10,6 +10,7 @@ import {
     Select,
 } from '@/components/ui'
 import DatePickerRange from '@/components/ui/DatePicker/DatePickerRange'
+import { SwapEvent, Slot } from '@/types/SwapEvent'
 
 const colourOptions = [
     { value: 'ocean', label: 'Ocean', color: '#00B8D9' },
@@ -25,26 +26,26 @@ const colourOptions = [
 ]
 
 export default function FlexibleForm() {
-    const swapy = useRef(null)
+    const [slots, setSlots] = useState<Slot[]>([])
+
+    const swapy = useRef<SwapyInstance>(null)
     const container = useRef(null)
 
     useEffect(() => {
         if (container.current) {
-            swapy.current = createSwapy(container.current, {
-                animationDuration: 500, // Optional customization
-            })
+            swapy.current = createSwapy(container.current)
 
-            // Listen for swap events
-            swapy.current.onSwap((event) => {
-                console.log('Swapped items:', event)
+            swapy.current.onSwap((event: SwapEvent) => {
+                setSlots(event.newSlotItemMap.asArray)
             })
         }
 
         return () => {
-            // Destroy the swapy instance on component unmount
             swapy.current?.destroy()
         }
     }, [])
+
+    // ---- Inputs ----
 
     const [radioValue, setRadioValue] = useState<string>('Sys0')
     const [checkboxList, setCheckboxList] = useState<string[]>(['Selection A'])
@@ -53,15 +54,23 @@ export default function FlexibleForm() {
         setRadioValue(val)
     }
 
-    const onCheckboxChange = (options: string[], e: SyntheticEvent) => {
+    const onCheckboxChange = (options: string[]) => {
         setCheckboxList(options)
     }
 
+    // ----------------
+
+    const onSubmitForm = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        console.log(slots)
+    }
+
     return (
-        <Form>
+        <Form onSubmit={onSubmitForm}>
             <div
                 ref={container}
-                className="grid grid-cols-6 rounded-lg bg-white p-4 gap-x-4 select-none"
+                className="grid grid-cols-6 rounded-lg bg-white p-4 gap-x-4"
             >
                 <div data-swapy-slot="a" className="col-span-3">
                     <div data-swapy-item="a">
