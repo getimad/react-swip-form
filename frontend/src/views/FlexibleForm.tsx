@@ -1,5 +1,5 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
-import { createSwapy, SwapyInstance } from 'swapy'
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react'
+import { createSwapy } from 'swapy'
 import { Form } from '@/components/ui/Form'
 import { Button } from '@/components/ui'
 import { SwapEvent, Slot } from '@/types/SwapEvent'
@@ -15,6 +15,7 @@ import {
     Item8,
     Item9,
 } from './FormItems'
+import SwapAbilityBtn from './SwapAbiltyBtn'
 
 const items = [
     { name: 'item-1', component: <Item1 /> },
@@ -29,6 +30,7 @@ const items = [
 ]
 
 export default function FlexibleForm() {
+    const [currentSlots, setCurrentSlots] = useState<Slot[]>([])
     const [slots, setSlots] = useState<Slot[]>([
         { slot: 'slot-1', item: 'item-1' },
         { slot: 'slot-2', item: 'item-2' },
@@ -41,9 +43,7 @@ export default function FlexibleForm() {
         { slot: 'slot-9', item: 'item-9' },
     ])
 
-    const [currentSlots, setCurrentSlots] = useState<Slot[]>([])
-
-    const swapy = useRef<SwapyInstance>(null)
+    const swapy = useRef(null)
     const container = useRef(null)
 
     useEffect(() => {
@@ -79,35 +79,45 @@ export default function FlexibleForm() {
         axios.put('/api/form', { data: currentSlots })
     }
 
-    return (
-        <Form onSubmit={onSubmitForm}>
-            <div
-                ref={container}
-                className="grid grid-cols-6 rounded-lg bg-white p-4 gap-x-4"
-            >
-                {slots.map((i) => {
-                    return (
-                        <div
-                            key={i.slot}
-                            data-swapy-slot={i.slot}
-                            className="col-span-6"
-                        >
-                            <div data-swapy-item={i.item}>
-                                {
-                                    items.find((j) => j.name === i.item)
-                                        ?.component
-                                }
-                            </div>
-                        </div>
-                    )
-                })}
+    const onSwitcherToggle = (val: boolean) => {
+        swapy.current?.enable(val)
+    }
 
-                <div className="col-span-6">
-                    <Button type="submit" variant="solid" block>
-                        Save
-                    </Button>
-                </div>
+    return (
+        <main>
+            <div className="flex flex-row justify-between align-middle items-center mb-6">
+                <h1 className="">Flexible Form</h1>
+                <SwapAbilityBtn onChange={onSwitcherToggle} />
             </div>
-        </Form>
+            <Form onSubmit={onSubmitForm}>
+                <div
+                    ref={container}
+                    className="grid grid-cols-6 rounded-lg bg-white p-4 gap-x-4"
+                >
+                    {slots.map((i) => {
+                        return (
+                            <div
+                                key={i.slot}
+                                data-swapy-slot={i.slot}
+                                className="col-span-6"
+                            >
+                                <div data-swapy-item={i.item}>
+                                    {
+                                        items.find((j) => j.name === i.item)
+                                            ?.component
+                                    }
+                                </div>
+                            </div>
+                        )
+                    })}
+
+                    <div className="col-span-6">
+                        <Button type="submit" variant="solid" block>
+                            Save
+                        </Button>
+                    </div>
+                </div>
+            </Form>
+        </main>
     )
 }
